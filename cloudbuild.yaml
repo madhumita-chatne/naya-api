@@ -30,20 +30,7 @@ steps:
         'us-east1',
         '--platform',
         'managed',
-      ]
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - kms
-      - decrypt
-      - --ciphertext-file=npmrc.enc
-      - --plaintext-file=/root/.npmrc
-      - --location=global
-      - --keyring=my-keyring
-      - --key=npm-key
-    volumes:
-      - name: 'home'
-        path: /root   
+      ]  
 images:
   - 'gcr.io/$PROJECT_ID/multiplayer-test-backend'
 
