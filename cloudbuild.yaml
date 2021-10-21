@@ -1,0 +1,50 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    id: 'install'
+    args: ['install']
+    env:
+    - HOME=/root/
+    volumes:
+    - name: 'home'
+      path: /root/
+  - name: gcr.io/cloud-builders/docker
+    args:
+      [
+        'build',
+        '-t',
+        'gcr.io/$PROJECT_ID/Multiplayer-test-backend:${SHORT_SHA}',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/Multiplayer-test-backend']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'beta',
+        'run',
+        'deploy',
+        'Multiplayer-test-backend',
+        '--image',
+        'gcr.io/$PROJECT_ID/Multiplayer-test-backend:${SHORT_SHA}',
+        '--region',
+        'us-east1',
+        '--platform',
+        'managed',
+      ]
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - kms
+      - decrypt
+      - --ciphertext-file=npmrc.enc
+      - --plaintext-file=/root/.npmrc
+      - --location=global
+      - --keyring=my-keyring
+      - --key=npm-key
+    volumes:
+      - name: 'home'
+        path: /root   
+images:
+  - 'gcr.io/$PROJECT_ID/Multiplayer-test-backend'
+
+
