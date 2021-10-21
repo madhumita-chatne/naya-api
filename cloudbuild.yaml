@@ -1,12 +1,12 @@
 steps:
-  - name: 'gcr.io/cloud-builders/npm'
-    id: 'install'
-    args: ['install']
+  # - name: 'gcr.io/cloud-builders/npm'
+  #   id: 'install'
+  #   args: ['install']
     # env:
     # - HOME=/root/
-    volumes:
-    - name: 'home'
-      path: /root/
+    # volumes:
+    # - name: 'home'
+    #   path: /root/
   - name: gcr.io/cloud-builders/docker
     args:
       [
