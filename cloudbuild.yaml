@@ -33,5 +33,3 @@ steps:
       ]  
 images:
   - 'gcr.io/$PROJECT_ID/multiplayer-test-backend'
-
-
